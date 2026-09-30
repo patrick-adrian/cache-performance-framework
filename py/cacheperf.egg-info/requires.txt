@@ -1,0 +1,4 @@
+matplotlib>=3.7
+
+[dev]
+pytest>=7.0

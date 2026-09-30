@@ -1,0 +1,3 @@
+[console_scripts]
+cacheperf = cacheperf.sweep:main
+cacheperf-report = cacheperf.report:main

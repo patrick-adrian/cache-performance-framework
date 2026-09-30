@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: cacheperf
+Version: 0.1.0
+Summary: Configurable cache performance-testing framework
+Requires-Python: >=3.10
+Requires-Dist: matplotlib>=3.7
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
