@@ -1,0 +1,89 @@
+{
+  "note": "Sample tables from README presets. Replace by running cacheperf sweeps and scripts/sync_web_data.py.",
+  "presets": {
+    "size": {
+      "title": "Cache size",
+      "command": "cacheperf --preset size -o results/size.csv",
+      "fixed": "64-byte blocks, 4-way, LRU",
+      "axis": "cache size",
+      "columns": ["1k", "2k", "4k", "8k", "16k", "32k", "64k", "128k", "256k"],
+      "metric": "miss_rate",
+      "rows": [
+        {
+          "label": "looping, 32 kB working set",
+          "values": [0.0625, 0.0625, 0.0625, 0.0625, 0.0625, 0.0026, 0.0026, 0.0026, 0.0026]
+        },
+        {
+          "label": "uniform random, 64 kB",
+          "values": [0.9845, 0.9690, 0.9374, 0.8743, 0.7498, 0.5008, 0.0051, 0.0051, 0.0051]
+        }
+      ],
+      "insight": "The loop is a cliff: benefit arrives all at once when the working set fits. Random declines smoothly as capacity captures a flat reuse distribution."
+    },
+    "block": {
+      "title": "Block size",
+      "command": "cacheperf --preset block -o results/block.csv",
+      "fixed": "16 kB 4-way cache",
+      "axis": "block size",
+      "columns": ["8", "16", "32", "64", "128", "256"],
+      "metric": "miss_rate",
+      "rows": [
+        {
+          "label": "sequential walk",
+          "values": [0.5, 0.25, 0.125, 0.0625, 0.0312, 0.0156]
+        },
+        {
+          "label": "pointer chase",
+          "values": [1.0, 1.0, 1.0, 1.0, 0.9699, 0.9539]
+        }
+      ],
+      "insight": "Sequential walk halves miss rate on every doubling. Pointer chase has no spatial locality; bigger blocks mostly fetch unused bytes."
+    },
+    "ways": {
+      "title": "Associativity",
+      "command": "cacheperf --preset ways -o results/ways.csv",
+      "fixed": "8 kB, 64-byte blocks",
+      "axis": "associativity",
+      "columns": ["1", "2", "4", "8", "16"],
+      "metric": "miss_rate",
+      "rows": [
+        {
+          "label": "strided, 8 kB stride",
+          "values": [1.0, 1.0, 1.0, 1.0, 0.002]
+        },
+        {
+          "label": "tiled matmul, 64×64",
+          "values": [0.0863, 0.0301, 0.0149, 0.0149, 0.0149]
+        }
+      ],
+      "insight": "Strided is a pure conflict-miss cliff at 16 ways. Matmul banks most of the gain by 4 ways."
+    },
+    "policy": {
+      "title": "Replacement policy",
+      "command": "cacheperf --preset policy -o results/policy.csv",
+      "fixed": "policy sweep on looping and thrash traces",
+      "axis": "policy",
+      "columns": ["fifo", "lru", "plru", "random"],
+      "metric": "miss_rate",
+      "rows": [
+        {
+          "label": "looping, 4-way",
+          "values": [0.0625, 0.0625, 0.0625, 0.0617]
+        },
+        {
+          "label": "looping, 8-way",
+          "values": [0.0625, 0.0625, 0.0625, 0.0616]
+        },
+        {
+          "label": "thrash, 4-way",
+          "values": [0.5558, 0.5558, 0.5557, 0.2247]
+        },
+        {
+          "label": "thrash, 8-way",
+          "values": [1.0, 1.0, 0.9996, 0.2257]
+        }
+      ],
+      "insight": "On the loop, policy is worth nothing. On thrash, random beats stack policies by refusing to always evict next-needed."
+    }
+  }
+}

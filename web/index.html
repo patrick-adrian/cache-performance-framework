@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>asic only — hardware &amp; GPU performance</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.2.5/400.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.2.5/500.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.2.5/600.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.2.5/700.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.2.5/400.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.2.5/500.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.2.5/700.css" />
+    <link rel="stylesheet" href="css/site.css?v=10" />
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      window.__mermaid = mermaid;
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "base",
+        themeVariables: {
+          primaryColor: "#e0f2fe",
+          primaryTextColor: "#0b0c0e",
+          primaryBorderColor: "#38bdf8",
+          lineColor: "#555963",
+          secondaryColor: "#fafaf8",
+          tertiaryColor: "#ffffff",
+          fontFamily: "Geist Sans, ui-sans-serif, sans-serif",
+        },
+        flowchart: { curve: "basis", htmlLabels: true },
+      });
+      document.dispatchEvent(new Event("mermaid-ready"));
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
+    <script src="js/app.js?v=9" type="module" defer></script>
+  </head>
+  <body>
+    <a class="sr-only" href="#main" style="position:absolute;left:-9999px">Skip to content</a>
+
+    <div id="nav-sentinel" aria-hidden="true" style="position:absolute;inset-inline:0;top:0;height:1rem;pointer-events:none"></div>
+
+    <header class="site-header" id="site-header">
+      <nav class="nav container" aria-label="Main">
+        <a class="wordmark" href="#home" data-nav="home" aria-label="asic only — home">
+          <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+            <rect width="32" height="32" rx="7" fill="#0b0c0e" />
+            <rect x="8" y="8" width="16" height="16" rx="1.5" fill="none" stroke="#fff" stroke-width="1.5" />
+            <rect x="11" y="11" width="10" height="10" rx="0.75" fill="#38bdf8" />
+            <g stroke="#fff" stroke-width="1.5" stroke-linecap="round">
+              <path d="M12 8V5.5M16 8V5.5M20 8V5.5" />
+              <path d="M12 24v2.5M16 24v2.5M20 24v2.5" />
+              <path d="M8 12H5.5M8 16H5.5M8 20H5.5" />
+              <path d="M24 12h2.5M24 16h2.5M24 20h2.5" />
+            </g>
+          </svg>
+          <span class="wordmark-text" aria-hidden="true">
+            <span class="cap">a</span><span class="rest">s</span><span class="cap">i</span><span class="rest">c</span><span class="rest"> only</span>
+          </span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#home" data-nav="home">Home</a></li>
+          <li><a href="#catalog" data-nav="catalog">Catalog</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a class="btn btn-primary btn-md" href="#connect" data-nav="connect">Connect with me!</a>
+          <button
+            type="button"
+            class="menu-toggle"
+            id="menu-toggle"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Open menu"
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M3 6h14M3 14h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <div class="mobile-menu" id="mobile-menu" hidden>
+        <div class="container">
+          <ul>
+            <li>
+              <a href="#home" data-nav="home">Home <span class="dot" data-dot="home" hidden></span></a>
+            </li>
+            <li>
+              <a href="#catalog" data-nav="catalog">Catalog <span class="dot" data-dot="catalog" hidden></span></a>
+            </li>
+            <li style="padding-top: 1rem; border: none">
+              <a class="btn btn-primary btn-lg" href="#connect" data-nav="connect" style="width: 100%">Connect with me</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="view is-active" id="view-home" data-view="home">
+        <div class="hero">
+          <div class="hero-grid bg-grid" aria-hidden="true"></div>
+          <div class="container hero-inner">
+            <div>
+              <p class="eyebrow animate-enter">RTL · UVM · HIP / CUDA</p>
+              <h1 class="animate-enter" style="animation-delay: 80ms">
+                Hardware and GPU performance, under one roof.
+              </h1>
+              <p class="lede animate-enter" style="animation-delay: 160ms">
+                asic only is an umbrella for what I’m building next: a UVM
+                framework around a pipelined CPU, C++ HIP/CUDA kernel performance
+                testing, and the RTL catalog that already starts with a
+                measured cache.
+              </p>
+              <div class="hero-ctas animate-enter" style="animation-delay: 240ms">
+                <a class="btn btn-primary btn-lg" href="#catalog" data-nav="catalog">
+                  Open catalog
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+                <a class="btn btn-secondary btn-lg" href="#connect" data-nav="connect">Connect with me</a>
+              </div>
+              <ol class="pillars animate-enter" style="animation-delay: 320ms" aria-label="Pillars">
+                <li><span class="n">01</span><span class="label">UVM · pipelined CPU</span></li>
+                <li><span class="n">02</span><span class="label">HIP / CUDA kernels</span></li>
+                <li><span class="n">03</span><span class="label">RTL catalog</span></li>
+              </ol>
+            </div>
+
+            <div class="animate-enter" style="animation-delay: 300ms">
+              <div class="hero-panel">
+                <div class="hero-panel-head">
+                  <strong>Roadmap</strong>
+                  <span class="status-dot">Cache live</span>
+                </div>
+                <ul class="feed">
+                  <li>
+                    <span class="time">rtl</span>
+                    <div>
+                      <p class="channel">Blocking cache</p>
+                      <p class="title">Miss rate · AMAT sweeps</p>
+                      <p class="detail">Geometry, policy, and traces measured today</p>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="time">uvm</span>
+                    <div>
+                      <p class="channel">Pipelined CPU</p>
+                      <p class="title">UVM testbench framework</p>
+                      <p class="detail">Stimulus, scoreboard, and coverage planned</p>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="time">gpu</span>
+                    <div>
+                      <p class="channel">C++ kernels</p>
+                      <p class="title">HIP and CUDA performance</p>
+                      <p class="detail">Occupancy, bandwidth, wall-time comparisons</p>
+                    </div>
+                  </li>
+                  <li>
+                    <span class="time">more</span>
+                    <div>
+                      <p class="channel">Catalog growth</p>
+                      <p class="title">Adders · FIFO · AXI · PCIe</p>
+                      <p class="detail">Same source / diagram / results pattern</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container home-next">
+          <p class="eyebrow">Explore</p>
+          <h2>Where to next?</h2>
+          <div class="next-grid">
+            <a class="next-card" href="#catalog/rtl" data-nav="catalog">
+              <span class="n">01</span>
+              <strong>RTL catalog</strong>
+              <p>Caches and future blocks — source, diagrams, sweeps.</p>
+            </a>
+            <a class="next-card" href="#catalog/cpp" data-nav="catalog">
+              <span class="n">02</span>
+              <strong>C++ catalog</strong>
+              <p>HIP/CUDA kernel slots for GPU performance work.</p>
+            </a>
+            <a class="next-card" href="#connect" data-nav="connect">
+              <span class="n">03</span>
+              <strong>Connect with me!</strong>
+              <p>Talk UVM, RTL, or GPU kernel measurement.</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-catalog" data-view="catalog" hidden>
+        <div class="rtl-page">
+          <div class="rtl-page-grid bg-grid" aria-hidden="true"></div>
+          <div class="rtl-layout">
+            <aside class="component-rail" aria-label="Catalog">
+              <div class="rail-head">
+                <p class="eyebrow">Catalog</p>
+                <h1>Components</h1>
+                <div class="family-tabs" id="family-tabs" role="tablist" aria-label="Family">
+                  <button type="button" role="tab" data-family="rtl" aria-selected="true">RTL</button>
+                  <button type="button" role="tab" data-family="cpp" aria-selected="false">C++</button>
+                </div>
+              </div>
+              <ul class="component-list" id="component-list"></ul>
+            </aside>
+
+            <div class="detail" id="component-detail">
+              <div class="detail-empty">
+                <p>Select a component on the left.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-connect" data-view="connect" hidden>
+        <div class="connect-page">
+          <div class="connect-grid bg-grid" aria-hidden="true"></div>
+          <div class="container connect-inner">
+            <div>
+              <p class="eyebrow animate-enter">Connect</p>
+              <h1 class="animate-enter" style="animation-delay: 60ms">Connect with me!</h1>
+
+              <div class="founder-card animate-enter" style="animation-delay: 120ms">
+                <img
+                  class="avatar-img"
+                  src="assets/profile.jpeg"
+                  alt=""
+                  width="96"
+                  height="96"
+                  decoding="async"
+                />
+                <div class="min-w-0">
+                  <p class="name">Patrick Pineda</p>
+                  <p class="role">computer engineering @ TMU</p>
+                  <p class="role-sub">firmware automation @ AMD</p>
+                  <a
+                    class="founder-link"
+                    href="https://www.linkedin.com/in/patrick-adrian-pineda/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    LinkedIn
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                      <path d="M7 17 17 7" /><path d="M8 7h9v9" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <p class="connect-intro animate-enter" style="animation-delay: 180ms">
+                asic only is run by Patrick, a Computer Engineering student and
+                software/hardware engineering intern in the Greater Toronto Area.
+                Every block and harness is planned, built, and measured personally.
+              </p>
+
+              <dl class="contact-dl animate-enter" style="animation-delay: 240ms">
+                <div>
+                  <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </span>
+                  <div>
+                    <dt>Mobile</dt>
+                    <dd><a href="tel:+16478639456">+1 (647) 863-9456</a></dd>
+                  </div>
+                </div>
+                <div>
+                  <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  </span>
+                  <div>
+                    <dt>Email</dt>
+                    <dd><a href="mailto:patrickadrianpineda@gmail.com">patrickadrianpineda@gmail.com</a></dd>
+                  </div>
+                </div>
+                <div>
+                  <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                  </span>
+                  <div>
+                    <dt>LinkedIn</dt>
+                    <dd>
+                      <a href="https://www.linkedin.com/in/patrick-adrian-pineda/" target="_blank" rel="noopener noreferrer">
+                        linkedin.com/in/patrick-adrian-pineda
+                      </a>
+                    </dd>
+                  </div>
+                </div>
+                <div>
+                  <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                  </span>
+                  <div>
+                    <dt>Based in</dt>
+                    <dd>Greater Toronto Area, Ontario</dd>
+                  </div>
+                </div>
+              </dl>
+            </div>
+
+            <div class="animate-enter connect-form-col" style="animation-delay: 200ms">
+              <h2>Tell me what you’re working on.</h2>
+              <p class="connect-form-lede">
+                Share what your working on - I'd love to connect!
+              </p>
+              <form class="contact-form" id="contact-form" novalidate>
+                <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" class="botcheck" />
+                <div class="form-grid">
+                  <div>
+                    <label for="cf-name">Name</label>
+                    <input id="cf-name" name="name" type="text" autocomplete="name" required />
+                  </div>
+                  <div>
+                    <label for="cf-email">Email</label>
+                    <input id="cf-email" name="email" type="email" autocomplete="email" required />
+                  </div>
+                  <div>
+                    <label for="cf-topic">Topic</label>
+                    <select id="cf-topic" name="topic">
+                      <option>Not sure yet</option>
+                      <option>RTL / cache catalog</option>
+                      <option>UVM · pipelined CPU</option>
+                      <option>HIP / CUDA kernels</option>
+                      <option>Something else</option>
+                    </select>
+                  </div>
+                  <div class="form-span">
+                    <label for="cf-message">What would you like to share?</label>
+                    <textarea
+                      id="cf-message"
+                      name="message"
+                      rows="5"
+                      required
+                      placeholder="e.g. Extending the catalog with a new RTL block, or measuring a HIP kernel."
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="form-footer">
+                  <p class="form-note" id="contact-form-note">Sending opens your email app with your message ready to go.</p>
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Send message
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <span>© 2026 asic only</span>
+        <span>Static catalog · open via a local file server if fetches are blocked</span>
+      </div>
+    </footer>
+  </body>
+</html>

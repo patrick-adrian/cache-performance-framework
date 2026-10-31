@@ -1,0 +1,14 @@
+flowchart TB
+  ADDR["req_addr — ADDR_WIDTH bits"]
+
+  ADDR --> TAG["tag · TAG_W"]
+  ADDR --> IDX["index · INDEX_W"]
+  ADDR --> OFF["offset · OFFSET_W"]
+
+  TAG --> LOOKUP["Compare tag_mem set ways"]
+  IDX --> SET["Select set\nSETS = size / block / ways"]
+  OFF --> BLOCK["Byte in block"]
+
+  LOOKUP --> HIT{valid and tag match?}
+  HIT -->|yes| H["Hit — HIT_LATENCY"]
+  HIT -->|no| M["Miss — fill / writeback"]

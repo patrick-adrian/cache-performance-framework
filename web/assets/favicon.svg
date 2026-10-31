@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="7" fill="#0b0c0e"/>
+  <!-- package body -->
+  <rect x="8" y="8" width="16" height="16" rx="1.5" stroke="#fff" stroke-width="1.5"/>
+  <!-- die -->
+  <rect x="11" y="11" width="10" height="10" rx="0.75" fill="#38bdf8"/>
+  <!-- bond pads / pins -->
+  <path stroke="#fff" stroke-width="1.5" stroke-linecap="round" d="M12 8V5.5M16 8V5.5M20 8V5.5M12 24v2.5M16 24v2.5M20 24v2.5M8 12H5.5M8 16H5.5M8 20H5.5M24 12h2.5M24 16h2.5M24 20h2.5"/>
+</svg>

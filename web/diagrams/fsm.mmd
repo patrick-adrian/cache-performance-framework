@@ -1,0 +1,19 @@
+stateDiagram-v2
+  [*] --> IDLE
+
+  IDLE --> PRE: accept and hit_latency > 1
+  IDLE --> IDLE: hit at latency 1
+  IDLE --> WB: miss and dirty victim
+  IDLE --> FILL: miss clean or free way
+
+  PRE --> IDLE: hit resolves
+  PRE --> WB: miss and dirty victim
+  PRE --> FILL: miss clean or free way
+
+  WB --> FILL: mem_ack
+  FILL --> IDLE: mem_ack fill_done
+
+  IDLE: Accept request
+  PRE: Remaining hit latency
+  WB: Drain dirty victim
+  FILL: Fetch block from mem_stub

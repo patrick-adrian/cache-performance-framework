@@ -1,0 +1,104 @@
+{
+  "site": {
+    "brand": "asic only",
+    "name": "asic only",
+    "tagline": "Hardware and GPU performance, measured side by side.",
+    "lede": "An umbrella for RTL verified under UVM, a pipelined CPU, and C++ HIP/CUDA kernel sweeps — source, diagrams, and numbers in one catalog."
+  },
+  "families": [
+    {
+      "id": "rtl",
+      "label": "RTL",
+      "sourceLabel": "RTL",
+      "sourceHint": "Synced from the component tree. Re-run the sync script after edits."
+    },
+    {
+      "id": "cpp",
+      "label": "C++",
+      "sourceLabel": "C++",
+      "sourceHint": "HIP and CUDA kernel sources once the GPU harness lands."
+    }
+  ],
+  "components": [
+    {
+      "id": "cache",
+      "family": "rtl",
+      "name": "Blocking cache",
+      "status": "active",
+      "summary": "Timed, single-outstanding-miss cache. Geometry is elaboration-time; policy and latencies are runtime.",
+      "sources": [
+        { "path": "rtl/cache.sv", "label": "cache.sv" },
+        { "path": "rtl/cache_pkg.sv", "label": "cache_pkg.sv" },
+        { "path": "rtl/replacement_unit.sv", "label": "replacement_unit.sv" },
+        { "path": "rtl/repl_lru.sv", "label": "repl_lru.sv" },
+        { "path": "rtl/repl_plru.sv", "label": "repl_plru.sv" },
+        { "path": "rtl/repl_fifo.sv", "label": "repl_fifo.sv" },
+        { "path": "rtl/repl_random.sv", "label": "repl_random.sv" },
+        { "path": "rtl/mem_stub.sv", "label": "mem_stub.sv" }
+      ],
+      "diagrams": [
+        { "id": "hierarchy", "title": "Module hierarchy", "file": "hierarchy.mmd" },
+        { "id": "address", "title": "Address decode", "file": "address.mmd" },
+        { "id": "fsm", "title": "Miss / hit FSM", "file": "fsm.mmd" }
+      ],
+      "presets": ["size", "block", "ways", "policy"],
+      "metrics": ["miss_rate", "amat"]
+    },
+    {
+      "id": "cpu-uvm",
+      "family": "rtl",
+      "name": "Pipelined CPU · UVM",
+      "status": "planned",
+      "summary": "UVM framework around a pipelined CPU — stimulus, scoreboard, and coverage beside the RTL."
+    },
+    {
+      "id": "adder",
+      "family": "rtl",
+      "name": "Adder",
+      "status": "planned",
+      "summary": "Compare ripple, carry-select, and SystemVerilog arithmetic operators on delay and area."
+    },
+    {
+      "id": "fifo",
+      "family": "rtl",
+      "name": "FIFO",
+      "status": "planned",
+      "summary": "Synchronous and async FIFOs — throughput under backpressure, depth vs latency."
+    },
+    {
+      "id": "axi",
+      "family": "rtl",
+      "name": "AXI",
+      "status": "planned",
+      "summary": "Protocol wrappers and outstanding-transaction depth versus bandwidth."
+    },
+    {
+      "id": "pcie",
+      "family": "rtl",
+      "name": "PCIe",
+      "status": "planned",
+      "summary": "Link-layer and DMA path trade-offs once a model exists."
+    },
+    {
+      "id": "hip-cuda",
+      "family": "cpp",
+      "name": "HIP / CUDA kernels",
+      "status": "planned",
+      "summary": "C++ GPU kernel performance testing across HIP and CUDA — occupancy, bandwidth, and wall time."
+    },
+    {
+      "id": "gemm",
+      "family": "cpp",
+      "name": "GEMM",
+      "status": "planned",
+      "summary": "Matrix multiply kernel variants — naive, tiled, and vendor BLAS baselines."
+    },
+    {
+      "id": "reduction",
+      "family": "cpp",
+      "name": "Reduction",
+      "status": "planned",
+      "summary": "Parallel reductions — warp/wave primitives versus atomics on HIP and CUDA."
+    }
+  ]
+}

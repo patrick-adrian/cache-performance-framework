@@ -1,0 +1,25 @@
+flowchart TB
+  REQ[CPU request]
+
+  subgraph CACHE[cache]
+    DECODE[Address decode]
+    ARRAYS[Tag valid dirty]
+    CTRL[Control FSM]
+    REPL[replacement_unit]
+    MEM[mem_stub]
+    DECODE --> ARRAYS --> CTRL
+    CTRL --- REPL
+    CTRL --- MEM
+  end
+
+  REQ --> DECODE
+  CTRL --> RESP[Response]
+
+  subgraph POL[Runtime policy mux]
+    LRU[repl_lru]
+    PLRU[repl_plru]
+    FIFO[repl_fifo]
+    RND[repl_random]
+  end
+
+  REPL --> POL

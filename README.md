@@ -252,6 +252,27 @@ Cycle counts are checked twice over: against the model's own arithmetic, and in
 directed tests against the table above computed by hand, so that a shared
 misconception could not satisfy both.
 
+## Web catalog
+
+A static site under `web/` is branded **asic only** (AdrIan-style wordmark:
+accent underline on **a** and **i**, remaining letters lowercase) with top nav:
+**Home**, **Catalog**, **Connect with me**. Home describes the umbrella: UVM for
+a pipelined CPU, C++ HIP/CUDA kernel testing, and the RTL catalog.
+
+Catalog has sidebar family tabs (**RTL** / **C++**) and a scrollable component
+list. The detail pane uses three tabs — **RTL|C++**, **Block diagram**,
+**Performance results** — instead of a long scroll.
+
+```bash
+bash scripts/sync_web.sh          # refresh web/rtl/ from rtl/
+cd web && python -m http.server 8000
+# open http://localhost:8000
+```
+
+Open it via a local server — `file://` blocks the fetches. Results currently
+come from `web/data/results.json` (the README sample tables). After a sweep you
+can hand-update that file; a CSV importer can replace that step later.
+
 ## Tests
 
 ```bash
