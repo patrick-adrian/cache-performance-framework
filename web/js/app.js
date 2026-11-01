@@ -8,6 +8,7 @@ const state = {
   activeDiagramId: null,
   detailTab: "source",
   view: "home",
+  navScrolled: false,
 };
 
 function waitForMermaid() {
@@ -64,6 +65,17 @@ function parseRoute() {
   return { view: "home", family: null, componentId: null };
 }
 
+function updateHeaderSolid() {
+  const header = document.getElementById("site-header");
+  const menu = document.getElementById("mobile-menu");
+  const menuOpen = menu && !menu.hidden;
+  // Home may go transparent at the top of the hero; Catalog/Connect stay solid.
+  const forceSolid = state.view !== "home" || menuOpen;
+  if (forceSolid) header.classList.add("is-solid");
+  else if (!state.navScrolled) header.classList.remove("is-solid");
+  else header.classList.add("is-solid");
+}
+
 function setView(view) {
   state.view = view;
   document.querySelectorAll(".view").forEach((el) => {
@@ -82,6 +94,7 @@ function setView(view) {
   });
   closeMobile();
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  updateHeaderSolid();
 }
 
 function closeMobile() {
@@ -96,8 +109,10 @@ function closeMobile() {
 function initNav() {
   const header = document.getElementById("site-header");
   const sentinel = document.getElementById("nav-sentinel");
+  state.navScrolled = false;
   const observer = new IntersectionObserver(([entry]) => {
-    header.classList.toggle("is-solid", !entry.isIntersecting);
+    state.navScrolled = !entry.isIntersecting;
+    updateHeaderSolid();
   });
   observer.observe(sentinel);
 
@@ -109,11 +124,14 @@ function initNav() {
     menu.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-    header.classList.toggle("is-solid", open || header.classList.contains("is-solid"));
+    updateHeaderSolid();
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeMobile();
+    if (e.key === "Escape") {
+      closeMobile();
+      updateHeaderSolid();
+    }
   });
 
   document.getElementById("family-tabs").addEventListener("click", (e) => {
@@ -282,12 +300,34 @@ async function showDiagram(id) {
   }
 }
 
+function languageForPath(path) {
+  const ext = path.split(".").pop()?.toLowerCase() ?? "";
+  if (["sv", "svh", "v", "vh"].includes(ext)) return "verilog";
+  if (["cpp", "cc", "cxx", "cu", "hip", "hpp", "h", "hh"].includes(ext)) return "cpp";
+  return "plaintext";
+}
+
+function paintSource(view, src, path) {
+  const lang = languageForPath(path);
+  const hljs = window.hljs;
+  if (hljs?.getLanguage?.(lang)) {
+    const { value } = hljs.highlight(src, { language: lang, ignoreIllegals: true });
+    view.innerHTML = value;
+    view.className = `hljs language-${lang}`;
+  } else {
+    view.textContent = src;
+    view.className = "hljs";
+  }
+}
+
 async function loadSourceFile(path) {
   const view = document.getElementById("source-view");
   if (!view) return;
   view.textContent = "Loading…";
+  view.className = "hljs";
   try {
-    view.textContent = await loadText(path);
+    const src = await loadText(path);
+    paintSource(view, src, path);
   } catch (err) {
     view.textContent = err.message;
   }
@@ -433,7 +473,7 @@ async function renderActiveComponent(id) {
           </select>
         </label>
       </div>
-      <pre class="rtl-view" id="source-view" tabindex="0">Loading…</pre>
+      <pre class="rtl-view" tabindex="0"><code id="source-view" class="hljs">Loading…</code></pre>
     </div>
 
     <div class="detail-panel" data-panel="diagram" hidden>

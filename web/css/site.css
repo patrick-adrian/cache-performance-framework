@@ -884,14 +884,87 @@ select {
   padding: 1rem 1.1rem;
   max-height: 26rem;
   overflow: auto;
-  border: 1px solid var(--color-ink);
+  border: 1px solid var(--color-line);
   border-radius: 0.75rem;
-  background: var(--color-ink);
-  color: #e8eaed;
+  background: var(--color-surface);
+  color: var(--color-ink);
   font-family: var(--font-mono);
   font-size: 0.76rem;
   line-height: 1.45;
   white-space: pre;
+}
+
+.rtl-view code.hljs {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  white-space: inherit;
+  overflow: visible;
+}
+
+/* VS Code–like SystemVerilog / C++ light highlighting */
+.rtl-view .hljs-comment,
+.rtl-view .hljs-quote {
+  color: #008000;
+  font-style: italic;
+}
+
+.rtl-view .hljs-keyword,
+.rtl-view .hljs-selector-tag,
+.rtl-view .hljs-literal {
+  color: #0000ff;
+}
+
+.rtl-view .hljs-built_in,
+.rtl-view .hljs-type,
+.rtl-view .hljs-section {
+  color: #267f99;
+}
+
+.rtl-view .hljs-string,
+.rtl-view .hljs-doctag,
+.rtl-view .hljs-template-tag,
+.rtl-view .hljs-template-variable {
+  color: #a31515;
+}
+
+.rtl-view .hljs-number,
+.rtl-view .hljs-regexp {
+  color: #098658;
+}
+
+.rtl-view .hljs-meta,
+.rtl-view .hljs-meta .hljs-keyword {
+  color: #af00db;
+}
+
+.rtl-view .hljs-title,
+.rtl-view .hljs-title.class_,
+.rtl-view .hljs-title.function_ {
+  color: #795e26;
+}
+
+.rtl-view .hljs-attr,
+.rtl-view .hljs-attribute,
+.rtl-view .hljs-variable,
+.rtl-view .hljs-params {
+  color: #001080;
+}
+
+.rtl-view .hljs-symbol,
+.rtl-view .hljs-bullet,
+.rtl-view .hljs-link {
+  color: #0451a5;
+}
+
+.rtl-view .hljs-emphasis {
+  font-style: italic;
+}
+
+.rtl-view .hljs-strong {
+  font-weight: 700;
 }
 
 .results-meta {
